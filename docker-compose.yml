@@ -8,17 +8,17 @@ services:
     volumes:
       - .:/code
     environment:
-      - DATABASE_URL="postgresql://postgres:root@postgres:5432/flask"
-      - APP_SETTINGS="config.DevelopmentConfig"
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - APP_SETTINGS=config.DevelopmentConfig
 
   redis:
     image: "redis:alpine"
 
-  postgres:
+  db:
     image: postgres:13
     restart: always
     environment:
-      POSTGRES_PASSWORD: root
+      POSTGRES_PASSWORD: postgres
       #default user : postgres
       #default database : postgres
     ports:
