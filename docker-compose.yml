@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    environment:
+      - DATABASE_URL="postgresql://postgres:root@postgres:5432/flask"
+      - APP_SETTINGS="config.DevelopmentConfig"
+
+  redis:
+    image: "redis:alpine"
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      #default user : postgres
+      #default database : postgres
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
