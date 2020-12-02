@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block nav_title %}
+  Olivier's blog
+{% endblock %}
+
+{% block header %}
+    <img id="logo" class="col-sm-2"
+     src="{{ url_for('static', filename='images/pasiphae_2.jpg') }}"
+      alt="Pasiphae mounted by a white bull">
+{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+      <article>
+	<p class="article-id" hidden>{{article._id}}</p>
+        <h2>
+          {{article.title}} -- {{article.date}}
+        </h2>
+        <p>
+          {{article.content}}
+        </p>
+      </article>
+    {% endfor %}
+{% endblock %}

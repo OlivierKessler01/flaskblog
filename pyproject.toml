@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools ~= 68.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "olivierkessler01.flaskblog"
+version = "0.0.1.dev0"
+authors = [{ name = "Olivier Kessler" }]
+description = "A bloging engine writtent in Python using Flask and MongoDB."
+readme = "README.md"
+requires-python = ">=3.11.0"
+classifiers = [
+    "Development Status :: 5 - Production / Stable",
+    "Natural Language :: English",
+    "Operating System :: Linux",
+    "Programming Language :: Python",
+    "Intended Audience :: Public",
+    "Programming Language :: Python 3",
+    "Topic :: Blogging",
+]
+
+# Numpy and scikitlearn have to be selected depending on if 
+# we are using py3.7 or py3.9
+dependencies = [
+    "flask",
+    "fire",
+    "Flask-Script",
+    "Flask-RESTful",
+    "Flask-PyMongo",
+    "Flask-Swagger"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["olivierkessler01.*"]
+namespaces = true
+

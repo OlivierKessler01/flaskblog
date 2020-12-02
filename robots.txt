@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow /update_article_form/
+Disallow /delete_article_form/
+Disallow /write_article_form/
+Disallow /article/
+Disallow /update/
+Disallow /delete/

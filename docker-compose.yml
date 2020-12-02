@@ -2,30 +2,42 @@ version: "3.8"
 
 services:
   web:
-    build: .
-    ports:
-      - "5000:5000"
+    expose:
+      - 5000
     volumes:
       - .:/code
     environment:
-      - DATABASE_URL="postgresql://postgres:root@postgres:5432/flask"
-      - APP_SETTINGS="config.DevelopmentConfig"
+      - APP_SETTINGS=src.config.DevelopmentConfig
+    build:
+      context: .
+      args:
+        - MONGO_USERNAME=${MONGO_USERNAME}
+        - MONGO_PASSWORD=${MONGO_PASSWORD}
+        - MONGO_HOST=mongo
+        - MONGO_DATABASE=${MONGO_DATABASE}
 
-  redis:
-    image: "redis:alpine"
-
-  postgres:
-    image: postgres:13
-    restart: always
+  reverse_proxy:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    volumes:
+      - ./log/nginx:/var/log/nginx
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt/:/etc/letsencrypt/
+      - ./logrotate-nginx.conf:/etc/logrotate.d/nginx
+    ports:
+      - 80:80
+      - 443:443
     environment:
-      POSTGRES_PASSWORD: root
-      #default user : postgres
-      #default database : postgres
-    ports:
-      - 5432:5432
+      - APPLICATION_URL=http://web:5000/
 
-  adminer:
-    image: adminer
+  mongo:
+    image: mongo:3.4.4
     restart: always
     ports:
-      - 8080:8080
+      - '27017:27017'
+    volumes:
+      - './Data/mongo:/data/db'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}

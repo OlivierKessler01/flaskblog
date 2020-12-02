@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>{% block title %}Olivier's blog{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+    </head>
+
+    <body>
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+
+      <nav class="navbar navbar-light navbar-expand-lg">
+        <a class="navbar-brand" href="#">{% block nav_title %}{% endblock %}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <section class="content offset-sm-2 col-sm-8">
+        {% block content %}{% endblock %}
+      </section>
+      <footer>
+        {% block footer %}Made with Python and the Flask microframework (<a href="https://flask.palletsprojects.com">https://flask.palletsprojects.com</a>), this website is
+        javascript non-dependent and blind accessible.{% endblock %}
+      </footer>
+    </body>
+</html>
