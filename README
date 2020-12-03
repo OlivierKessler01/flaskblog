@@ -1,27 +1,31 @@
-##############"Mounting development environment################
+##############Mounting development environment################
 docker-compose up -d
-docker exec flaskblog_web_1 python manage.py db migrate
-docker exec flaskblog_web_1 python manage.py db upgrade
-docker exec flaskblog_db_1 psql -d postgres -U postgres  -f data_sql/backup.sql
-
+docker exec flaskblog_db_1 psql -d postgres -U postgres  -f data_sql/backupdatabase.sql
 
 ####################Push app to Production#######################
 
 #1. On dev environment
-
 docker exec -it flaskblog_db_1 /bin/bash
-pg_dump -U postgres postgres > data_sql/backupdatabase.sql
+pg_dump -c -U postgres postgres > data_sql/backupdatabase.sql
 exit
 git add data_sql/*
 git commit -m "Add new database backup"
 git push origin master
 
 #2. On production environment
-
 docker-compose down
 docker image rm flaskblog_web
 git pull origin master
 docker-compose up -d
-docker exec flaskblog_db_1 psql -d postgres -U postgres -f data_sql/backup.sql
+docker exec flaskblog_db_1 psql -d postgres -U postgres -f data_sql/backupdatabase.sql
+docker exec flaskblog_web_1 python manage.py db migrate
+docker exec flaskblog_web_1 python manage.py db upgrade
+
+
+
+
+
+######Useful#############
+docker exec -it flaskblog_db_1 /bin/bash
 docker exec flaskblog_web_1 python manage.py db migrate
 docker exec flaskblog_web_1 python manage.py db upgrade

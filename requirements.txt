@@ -1,8 +1,8 @@
 flask
-redis
 psycopg2
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Script
 Flask-RESTful
 Flask-Swagger
+influxdb
