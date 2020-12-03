@@ -1,4 +1,8 @@
+#Mounting development environment
 docker-compose up -d
 docker exec flaskblog_web_1 python manage.py db migrate
 docker exec flaskblog_web_1 python manage.py db upgrade
 docker exec -it flaskblog_web_1 /bin/bash
+
+
+#Push app to Production

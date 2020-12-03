@@ -7,6 +7,10 @@ footer {
      background-color: #ff4500;
 }
 
+footer a {
+  font-style: italic;
+}
+
 div,p{
     color :  black;
 

@@ -11,7 +11,7 @@
     {% block header %}{% endblock %}
   </header>
 
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-light navbar-expand-lg">
     <a class="navbar-brand" href="#">{% block nav_title %}{% endblock %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -21,6 +21,9 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="http://localhost:3000/">Grafana (Demo credentials -> foo:foobar)<span class="sr-only">(current)</span></a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -29,7 +32,7 @@
     {% block content %}{% endblock %}
   </section>
   <footer>
-    {% block footer %}Made with Python and the Flask microframework (https://flask.palletsprojects.com), running from inside a Docker container, this website is
+    {% block footer %}Made with Python and the Flask microframework (<a href="https://flask.palletsprojects.com">https://flask.palletsprojects.com</a>), running from inside a Docker container, this website is
     javascript non-dependent and blind accessible.{% endblock %}
   </footer>
 </body>
