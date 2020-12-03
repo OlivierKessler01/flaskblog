@@ -1,4 +1,5 @@
 ##############Mounting development environment################
+#Add credentials to the .env file
 docker-compose up -d
 docker exec flaskblog_db_1 psql -d postgres -U postgres  -f data_sql/backupdatabase.sql
 
