@@ -8,7 +8,7 @@ class Articles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String())
     content = db.Column(db.Text())
-    date = db.Column(db.Time())
+    date = db.Column(db.Date())
 
     def __init__(self, url, content, date):
         self.url = url

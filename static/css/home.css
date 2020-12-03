@@ -5,6 +5,8 @@ nav {
 
 footer {
      background-color: #ff4500;
+     padding-left : 10px;
+     padding-right: 10px;
 }
 
 footer a {
@@ -14,6 +16,13 @@ footer a {
 div,p{
     color :  black;
 
+}
+
+.content article h2 {
+  background-color : #aeaaaa;
+  padding: 0px 10px 5px 10px;
+  font-style: italic;
+  font-size: 25px;  
 }
 
 .articles-list{

@@ -2,7 +2,8 @@
 docker-compose up -d
 docker exec flaskblog_web_1 python manage.py db migrate
 docker exec flaskblog_web_1 python manage.py db upgrade
-docker exec -it flaskblog_web_1 /bin/bash
+#Useful : docker exec -it flaskblog_web_1 /bin/bash
+docker exec flaskblog_db_1 psql -d postgres -U postgres  -f data_sql/backup.sql
 
 
 #Push app to Production
