@@ -34,7 +34,7 @@ def hello():
 
     influxdb_client.write_points(json_body)
 
-    articles = Articles.query.all();
+    articles = Articles.query.all()
     return render_template('home.html', articles=articles)
 
 @app.route('/<name>', methods=['GET'])
