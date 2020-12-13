@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 from influxdb import InfluxDBClient
 from datetime import datetime
@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-influxdb_client = InfluxDBClient(host='influxdb',port=8086,username=os.environ['INFLUXDB_USERNAME'],password=os.environ['INFLUXDB_PASSWORD'])
+influxdb_client = InfluxDBClient(host=os.environ['INFLUXDB_HOST'],port=os.environ['INFLUXDB_PORT'],username=os.environ['INFLUXDB_USERNAME'],password=os.environ['INFLUXDB_PASSWORD'])
 influxdb_client.create_database('pyexample')
 influxdb_client.switch_database('pyexample')
 
@@ -36,13 +36,49 @@ def hello():
     articles = Articles.query.all()
     return render_template('home.html', articles=articles)
 
+#Rest APi get all articles
+@app.route('/article', methods=['GET'])
+def get_all_articles():
+    articles = Articles.query.all()
+    data = []
+    for article in articles:
+        data.append(
+            {
+                "id":
+                article.id,
+                "title":
+                article.title,
+                "content":
+                article.content
+            }
+        )
+
+    response = make_response(
+         jsonify(
+                 {"message" : "Success",
+                 "data" : data}
+          ),
+         200,
+     )
+    response.headers["Content-Type"] = "application/json"
+    return response
+
 #Rest API Article, Get one article by Id
 @app.route('/article/<id>', methods=['GET'])
 def get_article(id):
     article = Articles.query.get(id)
-    return jsonify( id=article.id,
-                    title=article.title,
-                    content=article.content)
+
+    if article:
+        return jsonify(id=article.id, title=article.title, content=article.content)
+    else:
+        response = make_response(
+            jsonify(
+                {"message": "Ressource not found", "severity": "danger"}
+            ),
+            404,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
 
 #Rest API Article, Create one article
 @app.route('/article', methods=['POST'])
