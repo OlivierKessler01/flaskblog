@@ -10,8 +10,8 @@ class Articles(db.Model):
     content = db.Column(db.Text())
     date = db.Column(db.Date())
 
-    def __init__(self, url, content, date):
-        self.url = url
+    def __init__(self, title, content, date):
+        self.title = title
         self.content = content
         self.date = date
 

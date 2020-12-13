@@ -33,10 +33,34 @@ def hello():
     ]
 
     influxdb_client.write_points(json_body)
-
     articles = Articles.query.all()
     return render_template('home.html', articles=articles)
 
-@app.route('/<name>', methods=['GET'])
-def hello_name(name):
-    return "Hello {}!".format(name)
+#Rest API Article, Get one article by Id
+@app.route('/article/<id>', methods=['GET'])
+def get_article(id):
+    article = Articles.query.get(id)
+    return jsonify( id=article.id,
+                    title=article.title,
+                    content=article.content)
+
+#Rest API Article, Create one article
+@app.route('/article', methods=['POST'])
+def post_article():
+    article = Article(request.form['title'], request.form['content'])
+    db.session.add(article)
+    db.session.commit()
+    return jsonify(request="success")
+
+#Rest API Article, modify one article
+@app.route('/article', methods=['PUT'])
+def put_article():
+    return jsonify(request="success")
+
+#Rest API Article, delete one article
+@app.route('/article/<id>', methods=['DELETE'])
+def delete_article():
+    article = Articles.query.get(id)
+    db.session.delete(article)
+    db.session.commit()
+    return jsonify(request="success")
