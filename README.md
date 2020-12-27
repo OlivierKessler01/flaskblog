@@ -21,7 +21,7 @@ git push origin master
 #### 2. On production environment
 ```sh
 docker-compose down
-docker image rm flaskblog_web
+docker rmi flaskblog_web
 git pull origin master
 docker-compose up -d
 docker exec flaskblog_db_1 psql -d postgres -U postgres -f data_sql/backupdatabase.sql
