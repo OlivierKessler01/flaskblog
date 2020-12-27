@@ -1,8 +1,8 @@
 # flaskblog
 
 ## Running development environment
-1. Add credentials to the .env file
-2. Then run : 
+#### 1. Add credentials to the .env file
+#### 2. Then run : 
 ```sh
 docker-compose up -d
 docker exec flaskblog_postgre_server_1 psql -d {database_name} -U {database_user}  -f data_sql/backupdatabase.sql
@@ -25,13 +25,6 @@ docker rmi flaskblog_web
 git pull origin master
 docker-compose up -d
 docker exec flaskblog_db_1 psql -d {database_name} -U {database_user} -f data_sql/backupdatabase.sql
-docker exec flaskblog_web_1 python manage.py db migrate
-docker exec flaskblog_web_1 python manage.py db upgrade
-```
-
-## Useful commands
-```sh
-docker exec -it flaskblog_db_1 /bin/bash
 docker exec flaskblog_web_1 python manage.py db migrate
 docker exec flaskblog_web_1 python manage.py db upgrade
 ```
