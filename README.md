@@ -1,3 +1,5 @@
+# flaskblog
+
 ## Running development environment
 1. Add credentials to the .env file
 2. Then run : 
