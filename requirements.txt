@@ -1,8 +1,6 @@
 flask
-psycopg2
-Flask-SQLAlchemy
-Flask-Migrate
 Flask-Script
 Flask-RESTful
+Flask-PyMongo
 Flask-Swagger
 influxdb

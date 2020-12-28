@@ -3,5 +3,8 @@
 *.py[cod]
 *$py.class
 
+Data/influxdb/
+Data/grafana/
+
 /migrations/versions
 */wal

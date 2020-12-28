@@ -17,10 +17,14 @@ ENV INFLUXDB_PASSWORD=$INFLUXDB_PASSWORD
 ENV INFLUXDB_PORT=$INFLUXDB_PORT
 ENV INFLUXDB_HOST=$INFLUXDB_HOST
 
-
-RUN apk add --no-cache gcc musl-dev linux-headers bash
+RUN apk add --no-cache gcc musl-dev linux-headers bash python3-dev musl-dev
 COPY requirements.txt requirements.txt
-RUN apk add postgresql-dev gcc python3-dev musl-dev
+
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/main' >> /etc/apk/repositories
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/community' >> /etc/apk/repositories
+RUN apk update
+RUN apk add mongodb
+
 RUN pip install -r requirements.txt
 EXPOSE 5000
 COPY . .

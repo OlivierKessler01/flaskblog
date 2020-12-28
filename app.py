@@ -1,30 +1,28 @@
 from flask import Flask, jsonify, render_template, make_response
-from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
 from influxdb import InfluxDBClient
 from datetime import datetime
+from pprint import pprint
 
 import os
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+mongo = PyMongo(app)
 influxdb_client = InfluxDBClient(host=os.environ['INFLUXDB_HOST'],port=os.environ['INFLUXDB_PORT'],username=os.environ['INFLUXDB_USERNAME'],password=os.environ['INFLUXDB_PASSWORD'])
 influxdb_client.create_database('pyexample')
 influxdb_client.switch_database('pyexample')
-
-from models import Articles
 
 #Home action
 @app.route('/', methods=['GET'])
 def hello():
     json_body = [
         {
-            "measurement": "cpu_load_short",
-            "tags": {
-                "host": "server01",
-                "region": "us-west"
-            },
+            "measurement": "visit",
+            #"tags": {
+            #    "host": "server01",
+            #    "region": "us-west"
+            #},
             "time": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
             "fields": {
                 "Int_value": 1
@@ -33,7 +31,10 @@ def hello():
     ]
 
     influxdb_client.write_points(json_body)
-    articles = Articles.query.all()
+
+    pprint(app.config)
+    articles = mongo.db.Articles.find();
+
     return render_template('home.html', articles=articles)
 
 #Rest APi get all articles

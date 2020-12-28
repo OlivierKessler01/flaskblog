@@ -15,18 +15,16 @@ services:
         - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
         - INFLUXDB_PORT=${INFLUXDB_PORT}
         - INFLUXDB_HOST=${INFLUXDB_HOST}
-        - DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@postgre_server:5432/postgres
+        - DATABASE_URL=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/${MONGO_DATABASE}?authSource=admin
 
-  postgre_server:
-    image: postgres:13
+  mongo:
+    image: mongo:3.4.4
     restart: always
-    volumes :
-      - ./Data/postgre:/data_sql
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USERNAME}
     ports:
-      - 5433:5432
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
   adminer:
     image: adminer
