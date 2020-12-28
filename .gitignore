@@ -5,6 +5,7 @@
 
 Data/influxdb/
 Data/grafana/
+Data/mongo/
 
 /migrations/versions
 */wal
