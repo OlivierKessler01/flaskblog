@@ -17,12 +17,7 @@ db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem
 
 #### 1. On dev environment
 ```sh
-docker exec -it flaskblog_mongo_1 /bin/bash
-#TODO : write cmd to export database backup
-exit
-git add data_sql/*
-git commit -m "Add new database backup"
-git push origin master
+# Export mongo database backup
 ```
 #### 2. On production environment
 ```sh
@@ -30,5 +25,5 @@ docker-compose down
 docker rmi flaskblog_web
 git pull origin master
 docker-compose up -d
-#TODO : write cmd to import database backup
+#Import mongo  backup
 ```
