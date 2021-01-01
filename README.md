@@ -13,3 +13,8 @@ use {database_name}
 #Create collection and add articles
 db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem ipsim edkzedkzepdl"});
 ```
+
+You can also add articles using the Restful JSON API
+```sh
+curl --data "title=Thisisatitle&content=testcontent" localhost/article
+```

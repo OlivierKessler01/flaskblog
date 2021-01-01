@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, make_response
+from flask import Flask, request, jsonify, escape, render_template, make_response
 from flask_pymongo import PyMongo
 from influxdb import InfluxDBClient
 from datetime import datetime
@@ -33,24 +33,25 @@ def hello():
     influxdb_client.write_points(json_body)
 
     pprint(app.config)
-    articles = mongo.db.Articles.find();
+    articles = mongo.db.Articles.find()
 
     return render_template('home.html', articles=articles)
+
 
 #Rest APi get all articles
 @app.route('/article', methods=['GET'])
 def get_all_articles():
-    articles = Articles.query.all()
+    articles = mongo.db.Articles.find()
     data = []
     for article in articles:
         data.append(
             {
                 "id":
-                article.id,
+                escape(article.get("_id")),
                 "title":
-                article.title,
+                article.get('title'),
                 "content":
-                article.content
+                article.get('content')
             }
         )
 
@@ -67,10 +68,10 @@ def get_all_articles():
 #Rest API Article, Get one article by Id
 @app.route('/article/<id>', methods=['GET'])
 def get_article(id):
-    article = Articles.query.get(id)
+    article = "";
 
     if article:
-        return jsonify(id=article.id, title=article.title, content=article.content)
+        return jsonify("article found")
     else:
         response = make_response(
             jsonify(
@@ -84,20 +85,18 @@ def get_article(id):
 #Rest API Article, Create one article
 @app.route('/article', methods=['POST'])
 def post_article():
-    article = Article(request.form['title'], request.form['content'])
-    db.session.add(article)
-    db.session.commit()
+    mongo.db.Articles.insert_one(
+            {'title' : escape(request.form['title']), 'content' : escape(request.form['content'])}
+            )
     return jsonify(request="success")
 
 #Rest API Article, modify one article
 @app.route('/article', methods=['PUT'])
 def put_article():
-    return jsonify(request="success")
+    return jsonify(request="fail")
 
 #Rest API Article, delete one article
 @app.route('/article/<id>', methods=['DELETE'])
 def delete_article():
-    article = Articles.query.get(id)
-    db.session.delete(article)
-    db.session.commit()
+    mongo.db.Articles.delete_one({"_id", escape(id)})
     return jsonify(request="success")
