@@ -1,4 +1,6 @@
 import os
+import urllib.parse
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -7,7 +9,11 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'this-really-needs-to-be-changed'
-    MONGO_URI = os.environ['DATABASE_URL']
+
+    password = urllib.parse.quote_plus(os.environ['MONGO_PASSWORD'])
+
+    MONGO_URI = 'mongodb://%s:%s@%s:27017/%s?authSource=admin' % (os.environ['MONGO_USERNAME'], password, os.environ['MONGO_HOST'], os.environ['MONGO_DATABASE'])
+
 
 
 class ProductionConfig(Config):
@@ -21,7 +27,9 @@ class StagingConfig(Config):
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
-    MONGO_URI = os.environ['DATABASE_URL']
+    password = urllib.parse.quote_plus(os.environ['MONGO_PASSWORD'])
+
+    MONGO_URI = 'mongodb://%s:%s@%s:27017/%s?authSource=admin' % (os.environ['MONGO_USERNAME'], password, os.environ['MONGO_HOST'], os.environ['MONGO_DATABASE'])
     DEBUG = True
 
 
