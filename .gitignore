@@ -4,9 +4,9 @@
 *$py.class
 .env
 
-Data/influxdb/
-Data/grafana/
-Data/mongo/
+Data/influxdb/*
+Data/grafana/*
+Data/mongo/*
 
 /migrations/versions
 */wal

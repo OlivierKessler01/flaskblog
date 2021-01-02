@@ -31,12 +31,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
-  #adminer:
-  #  image: adminer
-  #  restart: always
-  #  ports:
-  #    - 8081:8080
-
   influxdb:
     image: influxdb:latest
     ports:

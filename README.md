@@ -5,6 +5,8 @@
 #### 2. Then run :
 ```sh
 docker-compose up -d
+sudo chmod -R 775 Data/
+
 docker exec -it flaskblog_mongo_1 /bin/bash
 #Run mongo shell
 mongo --username {mongo_username} --password {mongo_username} --authenticationDatabase admin
@@ -13,9 +15,3 @@ use {database_name}
 #Create collection and add articles
 db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem ipsim edkzedkzepdl"});
 ```
-
-#Not yet implemented
-#You can also add articles using the Restful JSON API
-#```sh
-#curl --data "title=Thisisatitle&content=testcontent" localhost/article
-#```
