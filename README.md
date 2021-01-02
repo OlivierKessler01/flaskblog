@@ -14,7 +14,8 @@ use {database_name}
 db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem ipsim edkzedkzepdl"});
 ```
 
-You can also add articles using the Restful JSON API
-```sh
-curl --data "title=Thisisatitle&content=testcontent" localhost/article
-```
+#Not yet implemented
+#You can also add articles using the Restful JSON API
+#```sh
+#curl --data "title=Thisisatitle&content=testcontent" localhost/article
+#```

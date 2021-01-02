@@ -10,8 +10,8 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 mongo = PyMongo(app)
 influxdb_client = InfluxDBClient(host=os.environ['INFLUXDB_HOST'],port=os.environ['INFLUXDB_PORT'],username=os.environ['INFLUXDB_USERNAME'],password=os.environ['INFLUXDB_PASSWORD'])
-influxdb_client.create_database('pyexample')
-influxdb_client.switch_database('pyexample')
+influxdb_client.create_database('blog')
+influxdb_client.switch_database('blog')
 
 #Home action
 @app.route('/', methods=['GET'])
@@ -31,8 +31,6 @@ def hello():
     ]
 
     influxdb_client.write_points(json_body)
-
-    pprint(app.config)
     articles = mongo.db.Articles.find()
 
     return render_template('home.html', articles=articles)
@@ -57,8 +55,10 @@ def get_all_articles():
 
     response = make_response(
          jsonify(
-                 {"message" : "Success",
-                 "data" : data}
+                 {
+                     "message" : "Success",
+                     "data" : data
+                 }
           ),
          200,
      )
@@ -68,35 +68,39 @@ def get_all_articles():
 #Rest API Article, Get one article by Id
 @app.route('/article/<id>', methods=['GET'])
 def get_article(id):
-    article = "";
-
+    article = mongo.db.Articles.find_one({'_id' : escape(id)})
+    
     if article:
         return jsonify("article found")
     else:
         response = make_response(
             jsonify(
-                {"message": "Ressource not found", "severity": "danger"}
+                {
+                    "message": "Ressource not found", 
+                    "severity": "danger"
+                }
             ),
             404,
         )
         response.headers["Content-Type"] = "application/json"
         return response
 
+#TODO : implement secure PUT/POST/DELETE API methods
 #Rest API Article, Create one article
-@app.route('/article', methods=['POST'])
-def post_article():
-    mongo.db.Articles.insert_one(
-            {'title' : escape(request.form['title']), 'content' : escape(request.form['content'])}
-            )
-    return jsonify(request="success")
+#@app.route('/article', methods=['POST'])
+#def post_article():
+#    mongo.db.Articles.insert_one(
+#            {'title' : escape(request.form['title']), 'content' : escape(request.form['content'])}
+#            )
+#    return jsonify(request="success")
 
 #Rest API Article, modify one article
-@app.route('/article', methods=['PUT'])
-def put_article():
-    return jsonify(request="fail")
+#@app.route('/article', methods=['PUT'])
+#def put_article():
+#    return jsonify(request="fail")
 
 #Rest API Article, delete one article
-@app.route('/article/<id>', methods=['DELETE'])
-def delete_article():
-    mongo.db.Articles.delete_one({"_id", escape(id)})
-    return jsonify(request="success")
+#@app.route('/article/<id>', methods=['DELETE'])
+#def delete_article():
+#    mongo.db.Articles.delete_one({"_id", escape(id)})
+#    return jsonify(request="success")
