@@ -35,6 +35,10 @@ def hello():
 
     return render_template('home.html', articles=articles)
 
+#Renders a form to write an article
+@app.route('/write_article', methods=['GET'])
+def write_article():
+    return render_template('write_article.html')
 
 #Rest APi get all articles
 @app.route('/article', methods=['GET'])
@@ -85,14 +89,19 @@ def get_article(id):
         response.headers["Content-Type"] = "application/json"
         return response
 
-#TODO : implement secure PUT/POST/DELETE API methods
+
 #Rest API Article, Create one article
-#@app.route('/article', methods=['POST'])
-#def post_article():
-#    mongo.db.Articles.insert_one(
-#            {'title' : escape(request.form['title']), 'content' : escape(request.form['content'])}
-#            )
-#    return jsonify(request="success")
+@app.route('/article', methods=['POST'])
+def post_article():
+    if(escape(request.form['database_username']) == os.environ['MONGO_USERNAME'] and escape(request.form['database_password']) == os.environ['MONGO_PASSWORD']):
+        mongo.db.Articles.insert_one(
+            {
+                'title' : escape(request.form['title_article']), 
+                'content' : escape(request.form['content_article'])
+            })
+        return jsonify(request="success")
+    else:
+        return jsonify(request="fail : bad authentication") 
 
 #Rest API Article, modify one article
 #@app.route('/article', methods=['PUT'])
