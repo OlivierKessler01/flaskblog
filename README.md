@@ -15,3 +15,7 @@ use {database_name}
 #Create collection and add articles
 db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem ipsim edkzedkzepdl"});
 ```
+## Using app
+localhost => HomePage
+localhost/delete_article_form => From to delete an article
+localhost/write_article_form => Form to write an article

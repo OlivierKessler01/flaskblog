@@ -13,6 +13,7 @@
 {% block content %}
     {% for article in articles %}
       <article>
+	<p class="article-id" hidden>{{article._id}}</p>
         <h2>
           {{article.title}} -- {{article.date}}
         </h2>

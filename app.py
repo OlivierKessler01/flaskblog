@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, escape, render_template, make_response
 from flask_pymongo import PyMongo
+from flask_pymongo import ObjectId
 from influxdb import InfluxDBClient
 from datetime import datetime
 from pprint import pprint
@@ -35,9 +36,14 @@ def hello():
 
     return render_template('home.html', articles=articles)
 
+#Renders a form to delete an article
+@app.route('/delete_article_form', methods=['GET'])
+def delete_article_form():
+    return render_template('delete_article.html')
+
 #Renders a form to write an article
-@app.route('/write_article', methods=['GET'])
-def write_article():
+@app.route('/write_article_form', methods=['GET'])
+def write_article_form():
     return render_template('write_article.html')
 
 #Rest APi get all articles
@@ -109,7 +115,18 @@ def post_article():
 #    return jsonify(request="fail")
 
 #Rest API Article, delete one article
-#@app.route('/article/<id>', methods=['DELETE'])
-#def delete_article():
-#    mongo.db.Articles.delete_one({"_id", escape(id)})
-#    return jsonify(request="success")
+@app.route('/delete/article', methods=['DELETE', 'POST'])
+def delete_article():
+    id_article = escape(request.form['id_article'])
+
+    if id_article != '':
+        if(escape(request.form['database_username']) == os.environ['MONGO_USERNAME'] and escape(request.form['database_password']) == os.environ['MONGO_PASSWORD']):
+            result = mongo.db.Articles.delete_one({'_id' : ObjectId(id_article)})
+            if result.deleted_count > 0:    
+                return jsonify(request="Success")
+            else:
+                return jsonify(request="Failed to delete the article")
+        else:
+            return jsonify(request="fail: bad authentication")
+    else:
+        return jsonify(request="fail: Article id missing")
