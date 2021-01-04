@@ -32,8 +32,8 @@ def hello():
     ]
 
     influxdb_client.write_points(json_body)
-    articles = mongo.db.Articles.find()
-
+    articles = mongo.db.Articles.find().sort("_id", -1)
+    
     return render_template('home.html', articles=articles)
 
 #Renders a form to delete an article
