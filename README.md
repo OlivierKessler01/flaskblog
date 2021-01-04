@@ -1,8 +1,10 @@
 # flaskblog
-
 ## Running development environment
 #### 1. Add credentials to the .env file
-#### 2. Then run :
+
+#### 2. Modify the nginx.conf reverse proxy configuration file to accomodate your needs
+
+#### 3. Then run :
 ```sh
 docker-compose up -d
 sudo chmod -R 775 Data/
@@ -16,8 +18,10 @@ use {database_name}
 db.Articles.insertOne({title: "lorem ipsum", content: "Lorem ipsum content lorem ipsim edkzedkzepdl"});
 ```
 ## Using app
-localhost => HomePage
+localhost => Homepage. Each article id can be found in the DOM.
 
 localhost/delete_article_form => From to delete an article
 
 localhost/write_article_form => Form to write an article
+
+localhost/update_article_form/<id> => Form to update an article
