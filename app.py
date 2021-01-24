@@ -1,41 +1,19 @@
 from flask import Flask, request, jsonify, escape, render_template, make_response
 from flask_pymongo import PyMongo
 from flask_pymongo import ObjectId
-from influxdb import InfluxDBClient
 from datetime import datetime
 from pprint import pprint
-
 import os
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 mongo = PyMongo(app)
-influxdb_client = InfluxDBClient(host=os.environ['INFLUXDB_HOST'],port=os.environ['INFLUXDB_PORT'],username=os.environ['INFLUXDB_USERNAME'],password=os.environ['INFLUXDB_PASSWORD'])
-influxdb_client.create_database('blog')
-influxdb_client.switch_database('blog')
 
 #Home action
 @app.route('/', methods=['GET'])
 def hello():
-    json_body = [
-        {
-            "measurement": "visit",
-            #"tags": {
-            #    "host": "server01",
-            #    "region": "us-west"
-            #},
-            "time": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            "fields": {
-                "Int_value": 1
-            }
-        }
-    ]
-
-    influxdb_client.write_points(json_body)
-    articles = mongo.db.Articles.find().sort("_id", -1)
-    
+    articles = mongo.db.Articles.find().sort("_id", -1) 
     return render_template('home.html', articles=articles)
-
 
 @app.route('/update_article_form/<id>', methods=['GET'])
 def update_article_form(id):

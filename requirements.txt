@@ -3,4 +3,3 @@ Flask-Script
 Flask-RESTful
 Flask-PyMongo
 Flask-Swagger
-influxdb

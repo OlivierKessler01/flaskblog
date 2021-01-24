@@ -11,10 +11,6 @@ services:
     build:
       context: .
       args:
-        - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
-        - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
-        - INFLUXDB_PORT=${INFLUXDB_PORT}
-        - INFLUXDB_HOST=${INFLUXDB_HOST}
         - MONGO_USERNAME=${MONGO_USERNAME}
         - MONGO_PASSWORD=${MONGO_PASSWORD}
         - MONGO_HOST=mongo
@@ -41,27 +37,3 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-
-  influxdb:
-    image: influxdb:latest
-    ports:
-      - '8086:8086'
-    volumes:
-      - ./Data/influxdb:/var/lib/influxdb
-    environment:
-      - INFLUXDB_DB=db0
-      - INFLUXDB_ADMIN_USER=${INFLUXDB_USERNAME}
-      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_PASSWORD}
-
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./Data/grafana:/var/lib/grafana
-      - ./grafana-provisioning/:/etc/grafana/provisioning
-    depends_on:
-      - influxdb
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
