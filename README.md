@@ -25,3 +25,9 @@ localhost/delete_article_form => From to delete an article
 localhost/write_article_form => Form to write an article
 
 localhost/update_article_form/<id> => Form to update an article
+
+## Monitoring reverse proxy access logs
+The reverse-proxy access and error logs are located in the project folder log\
+folder.
+
+Logrotate has to be configured on the host.
