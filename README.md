@@ -28,6 +28,4 @@ localhost/update_article_form/<id> => Form to update an article
 
 ## Monitoring reverse proxy access logs
 The reverse-proxy access and error logs are located in the project folder log\
-folder.
-
-Logrotate has to be configured on the host.
+folder and are logrotated.

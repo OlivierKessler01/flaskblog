@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/code
     environment:
-      - APP_SETTINGS=config.DevelopmentConfig
+      - APP_SETTINGS=src.config.DevelopmentConfig
     build:
       context: .
       args:
