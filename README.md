@@ -19,3 +19,10 @@ localhost/update_article_form/<id> => Form to update an article
 ## Monitoring reverse proxy access logs
 The reverse-proxy access and error logs are located in the project folder log\
 folder and are logrotated.
+
+## Run production environment
+#### 1. Run:
+```sh
+python -m olivierkessler01.flaskblog.ops.oliviersible deploy \
+    --ssh_username= --ssh_password= --ssh_ip=
+```
